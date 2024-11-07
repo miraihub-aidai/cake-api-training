@@ -1,0 +1,6 @@
+vendor/
+logs/
+.github/
+.editorconfig
+.htaccess
+webroot/

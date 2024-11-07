@@ -1,0 +1,10 @@
+# PostgreSQLコンテナ用のDockerfile
+FROM postgres:13
+
+# 環境変数の設定
+ENV POSTGRES_USER cakephp
+ENV POSTGRES_PASSWORD cakephp
+ENV POSTGRES_DB cakephp
+
+# ポート5432の公開
+EXPOSE 5432
