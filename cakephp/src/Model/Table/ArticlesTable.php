@@ -79,7 +79,7 @@ class ArticlesTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->notEmptyString('title', '記事のタイトルは必須です')
+            ->requirePresence('title', 'create', '記事のタイトルは必須です')
             ->minLength('title', 10, 'タイトルは最低10文字必要です')
             ->maxLength('title', 255, 'タイトルは255文字以内にしてください')
 

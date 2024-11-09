@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+// tests/Fixture/TagsFixture.php
 namespace App\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -10,19 +9,20 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class TagsFixture extends TestFixture
 {
-    /**
-     * Init method
-     *
-     * @return void
-     */
     public function init(): void
     {
         $this->records = [
             [
                 'id' => 1,
-                'title' => 'Lorem ipsum dolor sit amet',
-                'created' => 1726891724,
-                'modified' => 1726891724,
+                'title' => 'PHP',
+                'created' => '2024-01-01 10:00:00',
+                'modified' => '2024-01-01 10:00:00',
+            ],
+            [
+                'id' => 2,
+                'title' => 'CakePHP',
+                'created' => '2024-01-01 10:00:00',
+                'modified' => '2024-01-01 10:00:00',
             ],
         ];
         parent::init();

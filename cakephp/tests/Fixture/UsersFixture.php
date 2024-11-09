@@ -10,20 +10,15 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class UsersFixture extends TestFixture
 {
-    /**
-     * Init method
-     *
-     * @return void
-     */
     public function init(): void
     {
         $this->records = [
             [
                 'id' => 1,
-                'email' => 'Lorem ipsum dolor sit amet',
-                'password' => 'Lorem ipsum dolor sit amet',
-                'created' => 1726893384,
-                'modified' => 1726893384,
+                'email' => 'user@example.com',
+                'password' => '$2y$10$abcdefghijklmnopqrstuv', // ハッシュ化されたパスワード
+                'created' => '2024-01-01 10:00:00',
+                'modified' => '2024-01-01 10:00:00',
             ],
         ];
         parent::init();
