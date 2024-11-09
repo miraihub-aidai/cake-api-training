@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Middleware\LoggingMiddleware;
+use App\ServiceProvider\ArticlesServiceProvider;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
@@ -112,5 +113,7 @@ class Application extends BaseApplication
      */
     public function services(ContainerInterface $container): void
     {
+        // ここに記載した順番でDIコンテナに登録される
+        $container->addServiceProvider(new ArticlesServiceProvider());
     }
 }

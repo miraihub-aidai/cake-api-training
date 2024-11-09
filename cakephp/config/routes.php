@@ -57,6 +57,13 @@ return function (RouteBuilder $routes): void {
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
+        $builder->prefix('api', function (RouteBuilder $builder) {
+            $builder->connect('/articles', [
+                    'controller' => 'Articles',
+                    'action' => 'getArticles'
+                ])->setMethods(['GET']);
+        });
+
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */
