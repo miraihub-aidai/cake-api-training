@@ -62,11 +62,6 @@ psql:
 migrate:
 	docker compose -f $(COMPOSE_FILE) exec -e USER=$(DOCKER_USER) --user $(HOST_UID):$(HOST_GID) web bin/cake migrations migrate
 
-# CakePHPのシェルを実行
-#.PHONY: cake-shell
-#cake-shell:
-#	docker compose -f $(COMPOSE_FILE) exec web bin/cake console
-
 # Composerの更新
 .PHONY: composer-update
 composer-update:
