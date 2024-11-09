@@ -20,7 +20,7 @@ class ArticlesService implements ArticlesInterface
         protected ArticlesTable $articles
     ) {
     }
-    
+
     /**
      * Get articles
      *
@@ -33,7 +33,7 @@ class ArticlesService implements ArticlesInterface
             ->all();
 
         return [
-            'articles' => $articles->toArray()
+            'articles' => $articles->toArray(),
         ];
     }
 }

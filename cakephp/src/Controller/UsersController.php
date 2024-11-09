@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Event\EventInterface;
-use Cake\Http\Response;
-
 /**
  * Users Controller
  *
@@ -20,78 +17,7 @@ class UsersController extends AppController
      *
      * @var array<string>
      */
-    protected array $components = ['Authentication', 'Flash'];
-
-    /**
-     * コントローラーのアクションが実行される前に呼び出されるメソッド
-     *
-     * @param \Cake\Event\EventInterface $event イベントオブジェクト
-     * @return void
-     */
-    public function beforeFilter(EventInterface $event)
-    {
-        parent::beforeFilter($event);
-
-        // 認証を必要としないログインアクションを構成し、
-        // 無限リダイレクトループの問題を防ぎます
-        // $this->Authentication->addUnauthenticatedActions(['login']);
-        $this->Authentication->addUnauthenticatedActions(['login', 'add', 'logout']);
-    }
-
-    /**
-     * ユーザーログイン処理を行うアクション
-     *
-     * @return \Cake\Http\Response|null ログイン成功時はリダイレクト、それ以外の場合はnull
-     */
-    public function login(): ?Response
-    {
-        $this->request->allowMethod(['get', 'post']);
-        $result = $this->Authentication->getResult();
-
-        // POST, GET を問わず、ユーザーがログインしている場合はリダイレクトします
-        if ($result && $result->isValid()) {
-            // redirect to /articles after login success
-            $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'Articles',
-                'action' => 'index',
-            ]);
-
-            return $this->redirect($redirect);
-        }
-
-        // ユーザーが submit 後、認証失敗した場合は、エラーを表示します
-        if ($this->request->is('post')) {
-            if ($result && $result->isValid()) {
-                $target = $this->Authentication->getLoginRedirect() ?? '/users/login';
-
-                return $this->redirect($target);
-            }
-            $this->Flash->error('Invalid username or password');
-        }
-
-        return null;
-    }
-
-    /**
-     * ユーザーのログアウト処理を行うアクション
-     *
-     * このメソッドは、ユーザーをログアウトさせ、ログインページにリダイレクトします。
-     * ユーザーがログインしていない場合は、何も行いません。
-     *
-     * @return \Cake\Http\Response|null ログアウト成功時はリダイレクト、それ以外の場合はnull
-     */
-    public function logout(): ?Response
-    {
-        $result = $this->Authentication->getResult();
-        // POST, GET を問わず、ユーザーがログインしている場合はリダイレクトします
-        if ($result && $result->isValid()) {
-            $this->Authentication->logout();
-
-            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
-        }
-
-        return null;
-    }
+    protected array $components = ['Flash'];
 
     /**
      * Index method

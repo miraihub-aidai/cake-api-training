@@ -29,8 +29,6 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Cake\Routing\Router;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.

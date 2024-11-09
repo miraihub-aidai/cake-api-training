@@ -18,7 +18,7 @@ class ArticlesController extends AppController
 {
     /**
      * Controller initialize method
-     * 
+     *
      * @return void
      */
     public function initialize(): void
@@ -29,13 +29,16 @@ class ArticlesController extends AppController
     /**
      * Get Articles Action
      *
-     * @return void
+     * @return \Cake\Http\Response JSON Articles response
      */
     public function getArticles(GetArticles $getArticles)
     {
         $articles = $getArticles();
-        
-        return $this->response->withType('application/json')
-            ->withStringBody(json_encode($articles));
+
+        $jsonString = json_encode($articles, JSON_THROW_ON_ERROR);
+
+        return $this->response
+            ->withType('application/json')
+            ->withStringBody($jsonString);
     }
 }

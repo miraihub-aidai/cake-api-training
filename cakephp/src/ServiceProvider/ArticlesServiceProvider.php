@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\ServiceProvider;
 
 use App\Domain\Interface\ArticlesInterface;
-use App\Service\ArticlesService;
 use App\Domain\UseCase\GetArticles;
 use App\Model\Table\ArticlesTable;
+use App\Service\ArticlesService;
 use Cake\Core\ContainerInterface;
 use Cake\Core\ServiceProvider;
 use Cake\ORM\Locator\TableLocator;

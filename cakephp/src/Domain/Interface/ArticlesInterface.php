@@ -5,10 +5,10 @@ namespace App\Domain\Interface;
 
 interface ArticlesInterface
 {
-		/**
-		 * Get articles
-		 *
-		 * @return array<mixed> Articles
-		 */
-		public function getArticles(): array;
+    /**
+     * Get articles
+     *
+     * @return array<mixed> Articles
+     */
+    public function getArticles(): array;
 }

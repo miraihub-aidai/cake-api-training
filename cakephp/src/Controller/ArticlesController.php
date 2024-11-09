@@ -19,7 +19,7 @@ class ArticlesController extends AppController
 {
     /**
      * 初期化メソッド
-     * 
+     *
      * @return void
      */
     public function initialize(): void
@@ -81,6 +81,7 @@ class ArticlesController extends AppController
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
 
+            /** @var \App\Model\Entity\Article $article */
             $article->user_id = 1;
 
             if ($this->Articles->save($article)) {
