@@ -22,7 +22,7 @@ Thumbs.db
 
 # CakePHP specific files #
 ##########################
-bin/
+#bin/
 
 # Tool specific files #
 #######################
