@@ -50,7 +50,7 @@ ps:
 # webコンテナ内でbashを実行
 .PHONY: bash
 bash:
-	docker compose -f $(COMPOSE_FILE) exec -e HOME=/home/cakephp_user --user $(HOST_UID):$(HOST_GID) web bash -l
+	docker compose -f $(COMPOSE_FILE) exec -e HOME=/home/cakephp_user -u cakephp_user web bash -l
 
 # データベースコンテナ内でpsqlを実行
 .PHONY: psql

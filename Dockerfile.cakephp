@@ -4,16 +4,8 @@ FROM php:8.3-apache
 ARG HOST_UID=1000
 ARG HOST_GID=1000
 
-#RUN groupadd -g $HOST_GID cakephp_group && \
-#    useradd -u $HOST_UID -g cakephp_group -s /bin/bash -m cakephp_user
-
-# ユーザーとグループを作成
-#RUN groupadd -g 1000 cakephp_group && \
-#    useradd -u 1000 -g cakephp_group -m cakephp_user
-
 # ワークディレクトリの所有者を変更
 WORKDIR /var/www/html
-#RUN chown -R cakephp_user:cakephp_group /var/www/html
 
 # 必要なパッケージのインストール
 RUN apt update && apt install -y\
@@ -24,16 +16,12 @@ RUN apt update && apt install -y\
 # Composerのインストール
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# CakePHPプロジェクトの作成
-#RUN rm -rf /var/www/html
-#RUN composer create-project --prefer-dist cakephp/app:~5.0 /var/www/html
-
 # php の設定ファイル変更
 COPY ./php/php.ini /usr/local/etc/php/php.ini
 
 # ユーザーとグループを作成
-RUN groupadd -g $HOST_GID cakephp_group || true && \
-    useradd -u $HOST_UID -g cakephp_group -s /bin/bash -m cakephp_user || true
+RUN groupadd -g $HOST_GID cakephp_group > /dev/null 2>&1 || groupmod -g $HOST_GID cakephp_group > /dev/null 2>&1 || true && \
+    useradd -u $HOST_UID -g cakephp_group -s /bin/bash -m cakephp_user > /dev/null 2>&1 || usermod -u $HOST_UID cakephp_user > /dev/null 2>&1 || true
 
 # SSL証明書の設定
 RUN apt update && apt install -y ssl-cert
@@ -47,16 +35,12 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private
 RUN sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/webroot/' /etc/apache2/sites-available/000-default.conf
 RUN echo "<Directory /var/www/html/webroot>\n\tAllowOverride All\n</Directory>" >> /etc/apache2/sites-available/000-default.conf
 COPY ./apache/apache2.conf /etc/apache2/apache2.conf
-#COPY ./apache/000-default.conf /ete/apache2/sites-available/000-default.conf
 
 # mod_rewrite を有効化
 RUN a2enmod rewrite
 
 # ポート80, 443の公開
 EXPOSE 80 443
-
-# デフォルトユーザーを設定
-#USER cakephp_user
 
 # コンテナ起動時にApacheを実行
 CMD ["apache2-foreground"]
