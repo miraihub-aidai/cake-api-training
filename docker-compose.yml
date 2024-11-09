@@ -29,6 +29,8 @@ services:
       - "5432:5432"
     networks:
       - app_network
+    volumes:
+      - ./db:/var/lib/postgresql/data
 
 networks:
   app_network:
