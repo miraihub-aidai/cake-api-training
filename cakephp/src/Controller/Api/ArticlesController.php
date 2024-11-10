@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Domain\UseCase\GetArticles;
+use JsonException;
 
 /**
  * ArticlesController
@@ -29,16 +30,22 @@ class ArticlesController extends AppController
     /**
      * Get Articles Action
      *
+     * @param \App\Domain\UseCase\GetArticles $getArticles
      * @return \Cake\Http\Response JSON Articles response
+     * @throws \Cake\Http\Exception\InternalErrorException
      */
     public function getArticles(GetArticles $getArticles)
     {
         $articles = $getArticles();
 
-        $jsonString = json_encode($articles, JSON_THROW_ON_ERROR);
+        try {
+            $jsonString = json_encode($articles, JSON_THROW_ON_ERROR);
 
-        return $this->response
-            ->withType('application/json')
-            ->withStringBody($jsonString);
+            return $this->response
+                ->withType('application/json')
+                ->withStringBody($jsonString);
+        } catch (JsonException $e) {
+            throw $e;
+        }
     }
 }
