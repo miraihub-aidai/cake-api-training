@@ -4,7 +4,11 @@ declare(strict_types=1);
 namespace App\Test\TestCase\ServiceProvider;
 
 use App\Domain\Interface\ArticlesInterface;
+use App\Domain\UseCase\DeleteArticles;
 use App\Domain\UseCase\GetArticles;
+use App\Domain\UseCase\GetArticlesById;
+use App\Domain\UseCase\PostArticles;
+use App\Domain\UseCase\PutArticles;
 use App\Model\Table\ArticlesTable;
 use App\Service\ArticlesService;
 use App\ServiceProvider\ArticlesServiceProvider;
@@ -46,6 +50,10 @@ class ArticlesServiceProviderTest extends TestCase
     {
         $expectedServices = [
             GetArticles::class,
+            GetArticlesById::class,
+            PostArticles::class,
+            PutArticles::class,
+            DeleteArticles::class,
             ArticlesInterface::class,
             ArticlesTable::class,
         ];
@@ -87,6 +95,22 @@ class ArticlesServiceProviderTest extends TestCase
         // GetArticles が正しく解決されることを確認
         $getArticles = $this->container->get(GetArticles::class);
         $this->assertInstanceOf(GetArticles::class, $getArticles);
+
+        // GetArticlesById が正しく解決されることを確認
+        $getArticlesById = $this->container->get(GetArticlesById::class);
+        $this->assertInstanceOf(GetArticlesById::class, $getArticlesById);
+
+        // PostArticles が正しく解決されることを確認
+        $postArticles = $this->container->get(PostArticles::class);
+        $this->assertInstanceOf(PostArticles::class, $postArticles);
+
+        // PutArticles が正しく解決されることを確認
+        $putArticles = $this->container->get(PutArticles::class);
+        $this->assertInstanceOf(PutArticles::class, $putArticles);
+
+        // DeleteArticles が正しく解決されることを確認
+        $deleteArticles = $this->container->get(DeleteArticles::class);
+        $this->assertInstanceOf(DeleteArticles::class, $deleteArticles);
     }
 
     /**
@@ -111,6 +135,26 @@ class ArticlesServiceProviderTest extends TestCase
         $getArticles1 = $this->container->get(GetArticles::class);
         $getArticles2 = $this->container->get(GetArticles::class);
         $this->assertSame($getArticles1, $getArticles2);
+
+         // GetArticlesByIdのシングルトン確認
+         $getArticlesById1 = $this->container->get(GetArticlesById::class);
+         $getArticlesById2 = $this->container->get(GetArticlesById::class);
+         $this->assertSame($getArticlesById1, $getArticlesById2);
+
+         // PostArticlesのシングルトン確認
+         $postArticles1 = $this->container->get(PostArticles::class);
+         $postArticles2 = $this->container->get(PostArticles::class);
+         $this->assertSame($postArticles1, $postArticles2);
+
+         // PutArticlesのシングルトン確認
+         $putArticles1 = $this->container->get(PutArticles::class);
+         $putArticles2 = $this->container->get(PutArticles::class);
+         $this->assertSame($putArticles1, $putArticles2);
+
+         // DeleteArticlesのシングルトン確認
+         $deleteArticles1 = $this->container->get(DeleteArticles::class);
+         $deleteArticles2 = $this->container->get(DeleteArticles::class);
+         $this->assertSame($deleteArticles1, $deleteArticles2);
     }
 
     /**
@@ -137,6 +181,62 @@ class ArticlesServiceProviderTest extends TestCase
         $articlesTable = $articlesTableReflection->getValue($articlesService);
 
         // 型のチェック
+        $this->assertInstanceOf(ArticlesService::class, $articlesService);
+        $this->assertInstanceOf(ArticlesTable::class, $articlesTable);
+
+        // GetArticlesById の依存関係チェーンを確認
+        $getArticlesById = $this->container->get(GetArticlesById::class);
+
+        $articleServiceReflection = new ReflectionProperty(GetArticlesById::class, 'articlesService');
+        $articleServiceReflection->setAccessible(true);
+        $articlesService = $articleServiceReflection->getValue($getArticlesById);
+
+        $articlesTableReflection = new ReflectionProperty(ArticlesService::class, 'articles');
+        $articlesTableReflection->setAccessible(true);
+        $articlesTable = $articlesTableReflection->getValue($articlesService);
+
+        $this->assertInstanceOf(ArticlesService::class, $articlesService);
+        $this->assertInstanceOf(ArticlesTable::class, $articlesTable);
+
+        // PostArticles の依存関係チェーンを確認
+        $postArticles = $this->container->get(PostArticles::class);
+
+        $articleServiceReflection = new ReflectionProperty(PostArticles::class, 'articlesService');
+        $articleServiceReflection->setAccessible(true);
+        $articlesService = $articleServiceReflection->getValue($postArticles);
+
+        $articlesTableReflection = new ReflectionProperty(ArticlesService::class, 'articles');
+        $articlesTableReflection->setAccessible(true);
+        $articlesTable = $articlesTableReflection->getValue($articlesService);
+
+        $this->assertInstanceOf(ArticlesService::class, $articlesService);
+        $this->assertInstanceOf(ArticlesTable::class, $articlesTable);
+
+        // PutArticles の依存関係チェーンを確認
+        $putArticles = $this->container->get(PutArticles::class);
+
+        $articleServiceReflection = new ReflectionProperty(PutArticles::class, 'articlesService');
+        $articleServiceReflection->setAccessible(true);
+        $articlesService = $articleServiceReflection->getValue($putArticles);
+
+        $articlesTableReflection = new ReflectionProperty(ArticlesService::class, 'articles');
+        $articlesTableReflection->setAccessible(true);
+        $articlesTable = $articlesTableReflection->getValue($articlesService);
+
+        $this->assertInstanceOf(ArticlesService::class, $articlesService);
+        $this->assertInstanceOf(ArticlesTable::class, $articlesTable);
+
+        // DeleteArticles の依存関係チェーンを確認
+        $deleteArticles = $this->container->get(DeleteArticles::class);
+
+        $articleServiceReflection = new ReflectionProperty(DeleteArticles::class, 'articlesService');
+        $articleServiceReflection->setAccessible(true);
+        $articlesService = $articleServiceReflection->getValue($deleteArticles);
+
+        $articlesTableReflection = new ReflectionProperty(ArticlesService::class, 'articles');
+        $articlesTableReflection->setAccessible(true);
+        $articlesTable = $articlesTableReflection->getValue($articlesService);
+
         $this->assertInstanceOf(ArticlesService::class, $articlesService);
         $this->assertInstanceOf(ArticlesTable::class, $articlesTable);
     }
