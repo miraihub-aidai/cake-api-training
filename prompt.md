@@ -2,10 +2,9 @@ CakePHP5, PHP8.3で実装された 下記Serviceのテストコードを、phpun
 テストケース名は英語で、lowerCamelCaseで記載してください。
 なお、PHPDocを普通体／体言止めを基調とした日本語で記載し、プログラム用語については日本語に翻訳は不要です。
 
-DBへのアクセスについては、モックされたModelへアクセスするようにしてください。
-Serviceのコンストラクタにモック下ModelのTableをセットする際は、Interephenceの解析エラーが発生するので、phpdocで回避してください。
-
-例：
+## 注意点
+- DBへのアクセスについては、モックされたModelへアクセスするようにしてください。
+- Serviceのコンストラクタにモック下ModelのTableをセットする際は、Interephenceの解析エラーが発生するので、phpdocで回避してください。
 ```php
 /**
  * モック化されたArticlesTable
@@ -14,6 +13,9 @@ Serviceのコンストラクタにモック下ModelのTableをセットする際
  */
 protected $mockArticlesTable;
 ```
+- Cake\ORM\QueryはCakePHP5で廃止されているため、Cake\ORM\Query\SelectQueryを使用しなければいけない点に注意してください。
+- Cake\Datasource\ResultSetはCakePHP5で廃止されているため、Cake\ORM\ResultSetを使用しなければいけない点に注意してください。
+
 
 ## テスト対象のService
 ```php
